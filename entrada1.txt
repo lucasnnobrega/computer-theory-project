@@ -1,0 +1,7 @@
+alfabeto=a,b,c,d # Lista de s ́ımbolos do alfabeto aceito pelo aut^omato
+estados=q0,q1,q2 # Lista de estados no aut^omato
+inicial=q0       # Indica qual  ́e o estado inicial
+finais=q1,q2     # Especifica os estados finais do aut^omato.
+transicoes
+q0,q1,a          # Representa uma transi ̧c~ao de q0 para q1 com o s ́ımbolo "a"
+q1,q2,epsilon    # Transi ̧c~ao de cadeia vazia de q1 para q2 
