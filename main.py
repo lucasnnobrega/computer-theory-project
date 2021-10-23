@@ -1,82 +1,64 @@
+import argparse
+
 from parser import Parser
 from multiple_inputs import MultipleInputs
 from afn import AFN
+from utils import checkStringToAlphabet
 
+# Main function to user input
+def main1(inputfile):
 
-def ex1():
-
-  parser = Parser("./data/input_7.txt")
+  parser = Parser(inputfile)
   parser.show()
 
   while True:
     string = input("\n\nInsira a cadeia de caracteres: ")
+    print("\n")
+
+    if checkStringToAlphabet(parser.alphabet, string) == False:
+      print("A cadeia de caracteres contém elementos de fora do alfabeto")
+      continue
+
     afn = AFN(parser)
     afn.run(parser.initial, string, 0, [parser.initial])
-    print("Erros: {}".format(afn.errors))
-    print("Accpeted: {}".format(afn.accepted))
+
+    if (afn.accepted):
+      print("Cadeia aceita!")
+    else:
+      print("Cadeia rejeitada!")
 
 
-# Second exemple
-def ex2():
+# Main function reading from file
+def main2(inputfile, stringsfile):
 
-  parser = Parser("./data/AFN1/input.txt")
+  parser = Parser(inputfile)
   parser.show()
 
-  multiple_inputs = MultipleInputs("./data/AFN1/strings.txt")
-  multiple_inputs.show()
+  multiple_inputs = MultipleInputs(stringsfile)
+  strings = multiple_inputs.get_inputs()
 
-  string = multiple_inputs.get_inputs()
-
-  len_string = len(string)
-
-  afn = AFN(parser)
-
-  while len_string >= 0:
-    #string = raw_input("Insira a cadeia de caracteres: ")
-    #string = input("\n\nInsira a cadeia de caracteres: ")
-    print("\n", "AQUI", string, "\n")
-    afn.run(parser.initial, string[len_string-1], 0)
-    print("Erros: {}".format(afn.errors))
-    print("Accpeted: {}".format(afn.accepted))
-    len_string  = len_string - 1 
-
-## third exemple
-def ex3():
-  parser = Parser("./data/AFN1/input.txt")
-  parser.show()
-
-  afn = AFN(parser)
+  for string in strings:
+    print("\n\n########################")
+    print("Cadeia: ", string, "\n")
+    afn = AFN(parser)
+    afn.run(parser.initial, string, 0, [parser.initial])
+    
+    if (afn.accepted):
+      print("Cadeia aceita!")
+    else:
+      print("Cadeia rejeitada!")
 
 
-  while False:
-    #string = raw_input("Insira a cadeia de caracteres: ")
-    string = input("\n\nInsira a cadeia de caracteres: ")
-    print("\n", "AQUI", string, "\n")
-    afn.run(parser.initial, string, 0)
-    print("Erros: {}".format(afn.errors))
-    print("Accpeted: {}".format(afn.accepted))
+# Construct the argument parser
+ap = argparse.ArgumentParser()
 
+# Add the arguments to the parser
+ap.add_argument("-m", "--mode", required=True, help="Modo de execução [1: usuário interativo, 2: leitura a partir de arquivo]")
+ap.add_argument("-i", "--input", required=True, help="Caminho para o arquivo de input")
+ap.add_argument("-s", "--stringsfile", required=False, help="Caminho para o arquivo com as strins")
+args = vars(ap.parse_args())
 
-## fouth exemple
-def ex4():
-  parser = Parser("./data/input_1.txt")
-  parser.show()
-
-  afn = AFN(parser)
-
-
-  while True:
-    #string = raw_input("Insira a cadeia de caracteres: ")
-    string = input("\n\nInsira a cadeia de caracteres: ")
-    print("\n", "AQUI", string, "\n")
-    afn.run(parser.initial, string, 0)
-    print("Erros: {}".format(afn.errors))
-    print("Accpeted: {}".format(afn.accepted))
-
-
-ex1()
-# ex2()
-#ex3()
-#import pdb
-#pdb.set_trace()
-#ex4()
+if (args['mode'] ==  '1'):
+  main1(args['input'])
+else:
+  main2(args['input'], args['stringsfile'])

@@ -23,7 +23,6 @@ class Parser:
           self.isTransition = True
         elif self.isTransition:
           transistion = line.rstrip("\n").split(",")
-          print(transistion)
           source = transistion[0]
           dest = transistion[1]
           edge = transistion[2]
