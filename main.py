@@ -5,17 +5,13 @@ from afn import AFN
 
 def ex1():
 
-  parser = Parser("./data/input.txt")
+  parser = Parser("./data/input_7.txt")
   parser.show()
 
-  afn = AFN(parser)
-
-
-  while False:
-    #string = raw_input("Insira a cadeia de caracteres: ")
+  while True:
     string = input("\n\nInsira a cadeia de caracteres: ")
-    print("\n", "AQUI", string, "\n")
-    afn.run(parser.initial, string, 0)
+    afn = AFN(parser)
+    afn.run(parser.initial, string, 0, [parser.initial])
     print("Erros: {}".format(afn.errors))
     print("Accpeted: {}".format(afn.accepted))
 
@@ -63,7 +59,7 @@ def ex3():
 
 ## fouth exemple
 def ex4():
-  parser = Parser("./data/AFN2/input.txt")
+  parser = Parser("./data/input_1.txt")
   parser.show()
 
   afn = AFN(parser)
@@ -78,8 +74,8 @@ def ex4():
     print("Accpeted: {}".format(afn.accepted))
 
 
-#ex1()
-ex2()
+ex1()
+# ex2()
 #ex3()
 #import pdb
 #pdb.set_trace()

@@ -28,7 +28,7 @@ class Parser:
           dest = transistion[1]
           edge = transistion[2]
           if (source, edge) in self.transistions:
-            self.transistions[(source, edge)] = [self.transistions[(source, edge)], dest]
+            self.transistions[(source, edge)] = self.transistions[(source, edge)] + [dest]
           else:
             self.transistions[(source, edge)] = [dest]
 
